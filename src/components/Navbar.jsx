@@ -1,7 +1,7 @@
 import React from "react";
 import { Tabs, Tab } from "@mui/material";
 
-const tabs = ["todos", "masculinos", "femeninos", "marcas", "about", "testimonios"];
+const tabs = ["todos", "masculinos", "femeninos", "about", "testimonios"];
 
 const Navbar = ({ category, setCategory, showAbout, setShowAbout, showTestimonials, setShowTestimonials }) => {
   const handleChange = (event, newValue) => {

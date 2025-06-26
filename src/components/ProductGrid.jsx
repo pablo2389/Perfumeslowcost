@@ -80,7 +80,8 @@ const ProductGrid = ({ category, cart, setCart, fullView }) => {
           sx={{
             overflowX: "auto",
             whiteSpace: "nowrap",
-            width: "100%",
+            width: 720, // Limitamos a 720px para mostrar 3 tarjetas de 240px
+            maxWidth: "100%", // Se adapta a pantallas más chicas
             "&::-webkit-scrollbar": { height: 8 },
             "&::-webkit-scrollbar-thumb": {
               backgroundColor: "#bbb",
