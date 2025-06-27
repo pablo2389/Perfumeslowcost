@@ -43,7 +43,7 @@ const ProductGrid = ({ category, cart, setCart, fullView }) => {
       : category === "femeninos"
       ? perfumes.filter((p) => p.genero === "femenino")
       : category === "marcas"
-      ? perfumes.filter((p) => p.marca) // Puedes filtrar o agrupar marcas si quieres
+      ? perfumes.filter((p) => p.marca) // Ajustá si querés agrupar marcas
       : perfumes;
 
   const isCarousel =
@@ -53,7 +53,7 @@ const ProductGrid = ({ category, cart, setCart, fullView }) => {
   const scroll = (direction) => {
     if (!scrollRef.current) return;
     const { scrollLeft, clientWidth } = scrollRef.current;
-    const scrollAmount = 250; // Ancho aproximado tarjeta
+    const scrollAmount = 260; // Ancho tarjeta + margen
 
     if (direction === "left") {
       scrollRef.current.scrollTo({
@@ -70,8 +70,21 @@ const ProductGrid = ({ category, cart, setCart, fullView }) => {
 
   if (isCarousel) {
     return (
-      <Box sx={{ display: "flex", alignItems: "center" }}>
-        <IconButton onClick={() => scroll("left")}>
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          overflow: "hidden",
+          width: "100%",
+          maxWidth: 960,
+          mx: "auto",
+        }}
+      >
+        <IconButton
+          aria-label="scroll left"
+          onClick={() => scroll("left")}
+          sx={{ flexShrink: 0 }}
+        >
           <ChevronLeftIcon />
         </IconButton>
 
@@ -80,16 +93,18 @@ const ProductGrid = ({ category, cart, setCart, fullView }) => {
           sx={{
             overflowX: "auto",
             whiteSpace: "nowrap",
-            width: 720, // Limitamos a 720px para mostrar 3 tarjetas de 240px
-            maxWidth: "100%", // Se adapta a pantallas más chicas
+            width: "100%",
+            scrollbarWidth: "thin",
+            scrollbarColor: "#bbb transparent",
             "&::-webkit-scrollbar": { height: 8 },
             "&::-webkit-scrollbar-thumb": {
               backgroundColor: "#bbb",
               borderRadius: 4,
             },
-            scrollbarWidth: "thin",
-            scrollbarColor: "#bbb transparent",
           }}
+          tabIndex={0} // para accesibilidad
+          role="region"
+          aria-label="Lista de perfumes en carrusel"
         >
           {filteredPerfumes.map((perfume) => (
             <Card
@@ -99,15 +114,17 @@ const ProductGrid = ({ category, cart, setCart, fullView }) => {
                 verticalAlign: "top",
                 width: 240,
                 mr: 2,
+                mb: 2,
               }}
             >
               <CardMedia
                 component="img"
                 image={perfume.imagen}
                 alt={perfume.nombre}
+                loading="lazy"
                 sx={{
                   width: "100%",
-                  height: "220px",
+                  height: 220,
                   objectFit: "contain",
                   backgroundColor: "#f4f4f4",
                 }}
@@ -132,10 +149,10 @@ const ProductGrid = ({ category, cart, setCart, fullView }) => {
                     onChange={(e) =>
                       setQuantities({
                         ...quantities,
-                        [perfume.id]: parseInt(e.target.value) || 1,
+                        [perfume.id]: Math.max(1, parseInt(e.target.value) || 1),
                       })
                     }
-                    sx={{ width: "80px", mr: 1 }}
+                    sx={{ width: 80, mr: 1 }}
                   />
                   <Button
                     variant="contained"
@@ -149,7 +166,11 @@ const ProductGrid = ({ category, cart, setCart, fullView }) => {
           ))}
         </Box>
 
-        <IconButton onClick={() => scroll("right")}>
+        <IconButton
+          aria-label="scroll right"
+          onClick={() => scroll("right")}
+          sx={{ flexShrink: 0 }}
+        >
           <ChevronRightIcon />
         </IconButton>
       </Box>
@@ -158,18 +179,26 @@ const ProductGrid = ({ category, cart, setCart, fullView }) => {
 
   // Vista grid normal para "todos"
   return (
-    <Grid container spacing={2}>
+    <Grid container spacing={2} sx={{ maxWidth: 1280, mx: "auto", px: 2 }}>
       {filteredPerfumes.map((perfume) => (
-        <Grid key={perfume.id} item xs={12} sm={6} md={4}>
-          <Card sx={{ height: "100%" }}>
+        <Grid
+          key={perfume.id}
+          item
+          xs={12}
+          sm={6}
+          md={4}
+          sx={{ display: "flex" }}
+        >
+          <Card sx={{ height: "100%", width: "100%", display: "flex", flexDirection: "column" }}>
             <CardMedia
               component="img"
               height="220"
               image={perfume.imagen}
               alt={perfume.nombre}
+              loading="lazy"
               sx={{ objectFit: "contain", background: "#f4f4f4" }}
             />
-            <CardContent>
+            <CardContent sx={{ flexGrow: 1 }}>
               <Typography variant="h6" gutterBottom>
                 {perfume.nombre}
               </Typography>
@@ -189,10 +218,10 @@ const ProductGrid = ({ category, cart, setCart, fullView }) => {
                   onChange={(e) =>
                     setQuantities({
                       ...quantities,
-                      [perfume.id]: parseInt(e.target.value) || 1,
+                      [perfume.id]: Math.max(1, parseInt(e.target.value) || 1),
                     })
                   }
-                  sx={{ width: "80px", mr: 1 }}
+                  sx={{ width: 80, mr: 1 }}
                 />
                 <Button
                   variant="contained"

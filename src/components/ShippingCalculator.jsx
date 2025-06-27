@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import perfumes from "../data/perfumes";
-
 import {
   Avatar,
   Box,
@@ -26,7 +25,7 @@ const ciudades = [
 
 const calcularCostoEnvio = (ciudadRaw, hora, distanciaKm = 0) => {
   const ciudad = ciudadRaw.trim();
-  const horaNum = parseInt(hora.split(":"[0]));
+  const horaNum = parseInt(hora.split(":")[0]);
 
   if (ciudad === "Las Heras") return distanciaKm <= 10 ? 0 : 1000;
   if (ciudad === "Mendoza") return horaNum <= 15 ? 0 : 1000;
@@ -46,31 +45,20 @@ const ShippingCalculator = () => {
   const [emailCliente, setEmailCliente] = useState("");
   const [telefono, setTelefono] = useState("");
   const [comentarios, setComentarios] = useState("");
-
   const [ciudad, setCiudad] = useState("");
   const [hora, setHora] = useState("14:00");
   const [distanciaKm, setDistanciaKm] = useState("");
   const [costo, setCosto] = useState(null);
-  const [modoAuto, setModoAuto] = useState(() => {
-    const stored = localStorage.getItem("modoHoraAuto");
-    return stored === null ? true : stored === "true";
-  });
-
   const [modoVendedor, setModoVendedor] = useState(() => {
     return localStorage.getItem("modoVendedor") === "true";
   });
-
   const [historial, setHistorial] = useState(() => {
     const guardado = localStorage.getItem("historialPedidos");
     return guardado ? JSON.parse(guardado) : [];
   });
 
-  const perfumeSeleccionado = perfumes.find((p) => p.id === 2);
+  const perfumeSeleccionado = perfumes.find((p) => p.id === 2); // Simulado
   const totalProductos = perfumeSeleccionado ? perfumeSeleccionado.precio : 0;
-
-  useEffect(() => {
-    localStorage.setItem("modoHoraAuto", modoAuto);
-  }, [modoAuto]);
 
   const handleCalcular = () => {
     const km = ciudad.trim() === "Las Heras" ? parseFloat(distanciaKm) || 0 : 0;
@@ -103,9 +91,19 @@ const ShippingCalculator = () => {
   const generarTextoWhatsApp = () => {
     if (!ciudad || costo === null || !perfumeSeleccionado) return "";
     const totalFinal = totalProductos + costo;
-    const urlImagen = `https://tusitio.com${perfumeSeleccionado.imagen}`;
+    const urlImagen = `https://perfume-lowcost.netlify.app${perfumeSeleccionado.imagen}`;
     return encodeURIComponent(
-      `🧾 Pedido:\n- ${perfumeSeleccionado.nombre}\n- Imagen: ${urlImagen}\n- Total productos: $${totalProductos}\n- Envío a ${ciudad} a las ${hora}\n- Costo de envío: $${costo}\n\n💵 Total final: $${totalFinal}\n\n📍 Confirmar por este chat, gracias.`
+      `🧾 *Pedido:*
+- Producto: ${perfumeSeleccionado.nombre}
+- Imagen: ${urlImagen}
+
+💰 *Total productos:* $${totalProductos}
+📍 *Envío a:* ${ciudad} a las ${hora}
+🚚 *Costo de envío:* $${costo}
+
+💵 *Total final:* $${totalFinal}
+
+📲 Confirmar por este chat, ¡gracias!`
     );
   };
 
@@ -155,7 +153,9 @@ const ShippingCalculator = () => {
         <TextField label="Distancia (km)" type="number" value={distanciaKm} onChange={(e) => setDistanciaKm(e.target.value)} fullWidth sx={{ mb: 2 }} />
       )}
 
-      <Button variant="contained" onClick={handleCalcular} fullWidth sx={{ mb: 1 }}>Calcular costo</Button>
+      <Button variant="contained" onClick={handleCalcular} fullWidth sx={{ mb: 1 }}>
+        Calcular costo
+      </Button>
 
       {costo !== null && (
         <Typography variant="body1" sx={{ mt: 2 }}>
@@ -185,33 +185,20 @@ const ShippingCalculator = () => {
         Guardar pedido en historial
       </Button>
 
-      <Button
-        variant="outlined"
-        color="secondary"
-        fullWidth
-        onClick={handleReset}
-        sx={{ mt: 2, mb: 2 }}
-      >
+      <Button variant="outlined" color="secondary" fullWidth onClick={handleReset} sx={{ mt: 2, mb: 2 }}>
         Resetear formulario
       </Button>
 
       {!modoVendedor && (
-        <Button
-          variant="outlined"
-          color="warning"
-          fullWidth
-          onClick={activarModoVendedor}
-        >
+        <Button variant="outlined" color="warning" fullWidth onClick={activarModoVendedor}>
           Soy el vendedor
         </Button>
       )}
 
       {modoVendedor && (
         <>
-          <Divider />
-          <Typography variant="h6" sx={{ mt: 3, mb: 2 }}>
-            Historial de pedidos guardados
-          </Typography>
+          <Divider sx={{ my: 2 }} />
+          <Typography variant="h6" sx={{ mb: 2 }}>Historial de pedidos guardados</Typography>
           {historial.length === 0 && (
             <Typography variant="body2">No hay pedidos guardados.</Typography>
           )}
@@ -222,7 +209,7 @@ const ShippingCalculator = () => {
                   <ListItemAvatar>
                     <Avatar
                       variant="square"
-                      src={`https://tusitio.com${pedido.perfumeImagen}`}
+                      src={`https://perfume-lowcost.netlify.app${pedido.perfumeImagen}`}
                       alt={pedido.perfumeNombre}
                       sx={{ width: 56, height: 56, mr: 2 }}
                     />

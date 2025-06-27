@@ -24,35 +24,7 @@ const App = () => {
           content="Compra perfumes originales en Mendoza con envíos rápidos a Guaymallén, Las Heras, Godoy Cruz, Luján y Maipú. Calidad y precio justo."
         />
         <meta name="robots" content="index, follow" />
-        <link
-          rel="canonical"
-          href="https://perfumeslowcost.netlify.app"
-        />
-
-        <script type="application/ld+json">
-          {`
-          {
-            "@context": "https://schema.org",
-            "@type": "LocalBusiness",
-            "name": "Perfumes Low Cost",
-            "image": "https://perfumeslowcost.netlify.app/logo.png",
-            "address": {
-              "@type": "PostalAddress",
-              "streetAddress": "Av. Principal 123",
-              "addressLocality": "Mendoza",
-              "addressRegion": "Mendoza",
-              "postalCode": "5500",
-              "addressCountry": "AR"
-            },
-            "telephone": "+54 261 616 616 758",
-            "url": "https://perfumeslowcost.netlify.app",
-            "sameAs": [
-              "https://www.facebook.com/perfumeslowcost",
-              "https://www.instagram.com/perfumeslowcost"
-            ]
-          }
-          `}
-        </script>
+        <link rel="canonical" href="https://perfumeslowcost.netlify.app" />
       </Helmet>
 
       <CssBaseline />
@@ -69,7 +41,7 @@ const App = () => {
         sx={{
           maxWidth: 1200,
           margin: "0 auto",
-          px: 2,
+          px: { xs: 1, sm: 2, md: 3 },
           py: 4,
           width: "100%",
         }}
@@ -80,8 +52,8 @@ const App = () => {
           <Box
             sx={{
               display: "flex",
-              gap: 3,
               flexDirection: { xs: "column", md: "row" },
+              gap: { xs: 2, md: 3 },
             }}
           >
             <Box sx={{ flex: 3 }}>
@@ -90,7 +62,11 @@ const App = () => {
                 component="h1"
                 align="center"
                 gutterBottom
-                sx={{ fontWeight: "bold", mb: 4 }}
+                sx={{
+                  fontWeight: "bold",
+                  mb: { xs: 3, md: 4 },
+                  fontSize: { xs: "2rem", sm: "2.8rem", md: "3rem" },
+                }}
               >
                 PERFUMESLOWCOST
               </Typography>
@@ -102,7 +78,15 @@ const App = () => {
                 fullView={category === "todos"}
               />
             </Box>
-            <Box sx={{ flex: 1, minWidth: 300 }}>
+
+            <Box
+              sx={{
+                flex: 1,
+                minWidth: 280,
+                mt: { xs: 3, md: 0 },
+                px: { xs: 0, md: 2 },
+              }}
+            >
               <WhatsAppCheckout cart={cart} setCart={setCart} />
               <ShippingCalculator />
             </Box>

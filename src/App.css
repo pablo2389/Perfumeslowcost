@@ -3,6 +3,27 @@
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
+  overflow-x: hidden; /* ✅ Evita scroll horizontal */
+}
+
+body {
+  margin: 0;
+  font-family: 'Roboto', Arial, sans-serif;
+  background: #f5f5f5;
+}
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+@media (max-width: 600px) {
+  .MuiTypography-h4 {
+    font-size: 2rem !important;
+  }
+  .MuiTypography-h6 {
+    font-size: 1.1rem !important;
+  }
 }
 
 .logo {

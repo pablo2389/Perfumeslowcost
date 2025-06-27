@@ -1,6 +1,6 @@
 const perfumes = [];
 
-// Masculinos como antes
+// Masculinos
 for (let i = 1; i <= 85; i++) {
   perfumes.push({
     id: i,
@@ -8,22 +8,23 @@ for (let i = 1; i <= 85; i++) {
     descripcion: `Descripción del perfume masculino número ${i}.`,
     precio: 20000,
     genero: "masculino",
-    imagen: `/galeria/Male/img-${i}male.png`,
+    imagen: `/galeria/Male/img-${i}male.webp`,
   });
 }
 
-// Femeninos, saltando el 1 y 102
+// Femeninos — omitimos IDs con imágenes faltantes
+const omitidosFemeninos = [1, 60, 102];
+
 for (let i = 1; i <= 123; i++) {
-  // Omitir id femenino 1 y 102
-  if (i === 1 || i === 102) continue;
-  
+  if (omitidosFemeninos.includes(i)) continue;
+
   perfumes.push({
     id: 1000 + i,
     nombre: `Perfume Femenino #${i}`,
     descripcion: `Descripción del perfume femenino número ${i}.`,
     precio: 20000,
     genero: "femenino",
-    imagen: `/galeria/Female/perfume-female-${i}.png`,
+    imagen: `/galeria/Female/perfume-female-${i}.webp`,
   });
 }
 

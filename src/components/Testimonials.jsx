@@ -19,7 +19,6 @@ const Testimonials = () => {
   const [comentario, setComentario] = useState("");
   const [calificacion, setCalificacion] = useState(0);
 
-  // Cargar testimonios guardados al montar el componente
   useEffect(() => {
     const stored = localStorage.getItem(STORAGE_KEY);
     if (stored) {
@@ -27,7 +26,6 @@ const Testimonials = () => {
     }
   }, []);
 
-  // Guardar testimonios en localStorage cuando cambien
   useEffect(() => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(testimonios));
   }, [testimonios]);
@@ -52,15 +50,26 @@ const Testimonials = () => {
   };
 
   return (
-    <Box sx={{ maxWidth: 600, mx: "auto", p: 2 }}>
-      <Typography variant="h5" gutterBottom>
+    <Box
+      sx={{
+        maxWidth: 600,
+        mx: "auto",
+        p: { xs: 2, sm: 3 },
+      }}
+    >
+      <Typography variant="h5" gutterBottom align="center" sx={{ mb: 3 }}>
         Testimonios de nuestros clientes
       </Typography>
 
       <Box
         component="form"
         onSubmit={handleSubmit}
-        sx={{ mb: 4, display: "flex", flexDirection: "column", gap: 2 }}
+        sx={{
+          mb: 4,
+          display: "flex",
+          flexDirection: "column",
+          gap: 2,
+        }}
       >
         <TextField
           label="Nombre"
@@ -68,6 +77,7 @@ const Testimonials = () => {
           onChange={(e) => setNombre(e.target.value)}
           fullWidth
           required
+          inputProps={{ maxLength: 50 }}
         />
         <TextField
           label="Tu opinión"
@@ -77,6 +87,7 @@ const Testimonials = () => {
           rows={3}
           fullWidth
           required
+          inputProps={{ maxLength: 300 }}
         />
         <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
           <Typography>Calificación:</Typography>
@@ -86,18 +97,20 @@ const Testimonials = () => {
             onChange={(_, newValue) => setCalificacion(newValue)}
           />
         </Box>
-        <Button type="submit" variant="contained">
+        <Button type="submit" variant="contained" fullWidth>
           Enviar Testimonio
         </Button>
       </Box>
 
       <List>
         {testimonios.length === 0 && (
-          <Typography variant="body1">No hay testimonios aún.</Typography>
+          <Typography variant="body1" align="center">
+            No hay testimonios aún.
+          </Typography>
         )}
         {testimonios.map(({ id, nombre, comentario, calificacion, fecha }) => (
           <React.Fragment key={id}>
-            <ListItem alignItems="flex-start">
+            <ListItem alignItems="flex-start" sx={{ py: 1 }}>
               <ListItemText
                 primary={
                   <>
@@ -114,7 +127,15 @@ const Testimonials = () => {
                     </Box>
                   </>
                 }
-                secondary={comentario}
+                secondary={
+                  <Typography
+                    variant="body2"
+                    sx={{ whiteSpace: "pre-line" }}
+                    color="text.secondary"
+                  >
+                    {comentario}
+                  </Typography>
+                }
               />
             </ListItem>
             <Divider component="li" />
