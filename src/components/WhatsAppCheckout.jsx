@@ -11,7 +11,11 @@ const WhatsAppCheckout = ({ cart, setCart }) => {
     let mensaje = "Hola, quiero hacer el pedido:\n\n";
     cart.forEach(({ id, nombre, cantidad, precio, imagen }) => {
       mensaje += `- ${nombre || `Perfume ID: ${id}`} \n  Cantidad: ${cantidad}\n  Precio unitario: $${precio}\n\n`;
-      if (imagen) mensaje += `Foto: ${window.location.origin}${imagen}\n\n`;
+      if (imagen) {
+        // Cambiamos la extensión a .webp para que el link funcione
+        const imagenWebp = imagen.replace(/\.(png|jpg|jpeg)$/i, ".webp");
+        mensaje += `Foto: ${window.location.origin}${imagenWebp}\n\n`;
+      }
     });
 
     const total = cart.reduce((acc, item) => acc + item.precio * item.cantidad, 0);
@@ -71,9 +75,9 @@ const WhatsAppCheckout = ({ cart, setCart }) => {
             mb: 1,
           }}
         >
-          <Typography
-            sx={{ fontSize: { xs: "0.9rem", sm: "1rem" } }}
-          >{`${nombre || `ID: ${id}`} x ${cantidad}`}</Typography>
+          <Typography sx={{ fontSize: { xs: "0.9rem", sm: "1rem" } }}>
+            {`${nombre || `ID: ${id}`} x ${cantidad}`}
+          </Typography>
           <IconButton
             color="error"
             onClick={() => handleRemove(id)}
