@@ -12,7 +12,7 @@ const WhatsAppCheckout = ({ cart, setCart }) => {
     cart.forEach(({ id, nombre, cantidad, precio, imagen }) => {
       mensaje += `- ${nombre || `Perfume ID: ${id}`} \n  Cantidad: ${cantidad}\n  Precio unitario: $${precio}\n\n`;
       if (imagen) {
-        // Cambiamos la extensión a .webp para que el link funcione
+        // Cambio de extensión a .webp para que el link funcione
         const imagenWebp = imagen.replace(/\.(png|jpg|jpeg)$/i, ".webp");
         mensaje += `Foto: ${window.location.origin}${imagenWebp}\n\n`;
       }
