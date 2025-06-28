@@ -45,7 +45,6 @@ const Navbar = ({
         scrollButtons="auto"
         allowScrollButtonsMobile
         aria-label="Categorías de perfumes"
-        centered
         sx={{
           minHeight: "48px",
           px: { xs: 1, sm: 2 },

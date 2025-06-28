@@ -8,6 +8,8 @@ import WhatsAppCheckout from "./components/WhatsAppCheckout";
 import AboutUs from "./components/AboutUs";
 import Testimonials from "./components/Testimonials";
 import ShippingCalculator from "./components/ShippingCalculator";
+import SellerMode from "./components/SellerMode"; // Importa modo vendedor
+import SellerDashboard from "./components/SellerDashboard"; // Importa dashboard vendedor
 
 const App = () => {
   const [category, setCategory] = useState("todos");
@@ -56,6 +58,7 @@ const App = () => {
               gap: { xs: 2, md: 3 },
             }}
           >
+            {/* Contenido normal para todos */}
             <Box sx={{ flex: 3 }}>
               <Typography
                 variant="h3"
@@ -92,6 +95,11 @@ const App = () => {
             </Box>
           </Box>
         )}
+
+        {/* Modo vendedor: contenido exclusivo */}
+        <SellerMode>
+          <SellerDashboard />
+        </SellerMode>
       </Box>
     </>
   );
