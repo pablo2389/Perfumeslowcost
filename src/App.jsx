@@ -98,7 +98,8 @@ const App = () => {
 
         {/* Modo vendedor: contenido exclusivo */}
         <SellerMode>
-          <SellerDashboard />
+          {/* Oculta dashboard solo si estamos en About o Testimonials */}
+          {!(showAbout || showTestimonials) && <SellerDashboard />}
         </SellerMode>
       </Box>
     </>

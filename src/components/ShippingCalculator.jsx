@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import perfumes from "../data/perfumes";
 import {
   Avatar,
@@ -49,9 +49,7 @@ const ShippingCalculator = () => {
   const [hora, setHora] = useState("14:00");
   const [distanciaKm, setDistanciaKm] = useState("");
   const [costo, setCosto] = useState(null);
-  const [modoVendedor, setModoVendedor] = useState(() => {
-    return localStorage.getItem("modoVendedor") === "true";
-  });
+  const [modoVendedor, setModoVendedor] = useState(false);
   const [historial, setHistorial] = useState(() => {
     const guardado = localStorage.getItem("historialPedidos");
     return guardado ? JSON.parse(guardado) : [];
@@ -88,10 +86,30 @@ const ShippingCalculator = () => {
     }
   };
 
+  const salirModoVendedor = () => {
+    setModoVendedor(false);
+    localStorage.removeItem("modoVendedor");
+    alert("Modo vendedor desactivado");
+  };
+
+  useEffect(() => {
+    const savedMode = localStorage.getItem("modoVendedor") === "true";
+    if (savedMode) {
+      const clave = prompt("Ingresá la clave del vendedor para activar modo vendedor:");
+      if (clave === "12345") {
+        setModoVendedor(true);
+      } else {
+        localStorage.removeItem("modoVendedor");
+        setModoVendedor(false);
+        alert("Clave incorrecta. Modo vendedor no activado.");
+      }
+    }
+  }, []);
+
   const generarTextoWhatsApp = () => {
     if (!ciudad || costo === null || !perfumeSeleccionado) return "";
     const totalFinal = totalProductos + costo;
-    const urlImagen = perfumeSeleccionado.imagen; // URL completa ya
+    const urlImagen = perfumeSeleccionado.imagen;
 
     return encodeURIComponent(
       `🧾 *Pedido:*
@@ -119,7 +137,7 @@ const ShippingCalculator = () => {
       comentarios: comentarios || "",
       perfumeId: perfumeSeleccionado.id,
       perfumeNombre: perfumeSeleccionado.nombre,
-      perfumeImagen: perfumeSeleccionado.imagen, // URL completa
+      perfumeImagen: perfumeSeleccionado.imagen,
       ciudad,
       hora,
       costoEnvio: costo,
@@ -207,6 +225,8 @@ const ShippingCalculator = () => {
         </Typography>
       )}
 
+      {/* Botón "Enviar pedido por WhatsApp" ocultado */}
+      {/*
       <Button
         variant="outlined"
         color="success"
@@ -218,6 +238,7 @@ const ShippingCalculator = () => {
       >
         Enviar pedido por WhatsApp
       </Button>
+      */}
 
       <Button
         variant="contained"
@@ -229,23 +250,45 @@ const ShippingCalculator = () => {
         Guardar pedido en historial
       </Button>
 
-      <Button variant="outlined" color="secondary" fullWidth onClick={handleReset} sx={{ mt: 2, mb: 2 }}>
+      <Button
+        variant="outlined"
+        color="secondary"
+        fullWidth
+        onClick={handleReset}
+        sx={{ mt: 2, mb: 2 }}
+      >
         Resetear formulario
       </Button>
 
       {!modoVendedor && (
-        <Button variant="outlined" color="warning" fullWidth onClick={activarModoVendedor}>
+        <Button
+          variant="outlined"
+          color="warning"
+          fullWidth
+          onClick={activarModoVendedor}
+        >
           Soy el vendedor
         </Button>
       )}
 
       {modoVendedor && (
         <>
+          <Button
+            variant="outlined"
+            color="error"
+            fullWidth
+            onClick={salirModoVendedor}
+          >
+            Salir de modo vendedor
+          </Button>
+
           <Divider sx={{ my: 2 }} />
           <Typography variant="h6" sx={{ mb: 2 }}>
             Historial de pedidos guardados
           </Typography>
-          {historial.length === 0 && <Typography variant="body2">No hay pedidos guardados.</Typography>}
+          {historial.length === 0 && (
+            <Typography variant="body2">No hay pedidos guardados.</Typography>
+          )}
           <List>
             {historial.map((pedido) => (
               <React.Fragment key={pedido.id}>
@@ -262,15 +305,28 @@ const ShippingCalculator = () => {
                     primary={pedido.perfumeNombre}
                     secondary={
                       <>
-                        <Typography component="span" variant="body2" color="text.primary">
+                        <Typography
+                          component="span"
+                          variant="body2"
+                          color="text.primary"
+                        >
                           Cliente: {pedido.nombreCliente} | {pedido.telefono}
                         </Typography>
                         <br />
-                        <Typography component="span" variant="body2" color="text.secondary">
-                          Ciudad: {pedido.ciudad} | Envío: ${pedido.costoEnvio} | {pedido.fecha}
+                        <Typography
+                          component="span"
+                          variant="body2"
+                          color="text.secondary"
+                        >
+                          Ciudad: {pedido.ciudad} | Envío: ${pedido.costoEnvio} |{" "}
+                          {pedido.fecha}
                         </Typography>
                         <br />
-                        <Typography component="span" variant="body2" color="text.secondary">
+                        <Typography
+                          component="span"
+                          variant="body2"
+                          color="text.secondary"
+                        >
                           Comentarios: {pedido.comentarios || "(ninguno)"}
                         </Typography>
                       </>
