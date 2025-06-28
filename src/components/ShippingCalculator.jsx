@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import perfumes from "../data/perfumes";
 import {
   Avatar,
@@ -91,7 +91,8 @@ const ShippingCalculator = () => {
   const generarTextoWhatsApp = () => {
     if (!ciudad || costo === null || !perfumeSeleccionado) return "";
     const totalFinal = totalProductos + costo;
-    const urlImagen = `https://perfume-lowcost.netlify.app${perfumeSeleccionado.imagen}`;
+    const urlImagen = perfumeSeleccionado.imagen; // URL completa ya
+
     return encodeURIComponent(
       `🧾 *Pedido:*
 - Producto: ${perfumeSeleccionado.nombre}
@@ -118,7 +119,7 @@ const ShippingCalculator = () => {
       comentarios: comentarios || "",
       perfumeId: perfumeSeleccionado.id,
       perfumeNombre: perfumeSeleccionado.nombre,
-      perfumeImagen: perfumeSeleccionado.imagen,
+      perfumeImagen: perfumeSeleccionado.imagen, // URL completa
       ciudad,
       hora,
       costoEnvio: costo,
@@ -138,19 +139,62 @@ const ShippingCalculator = () => {
         Calculador de Envío
       </Typography>
 
-      <TextField label="Nombre" value={nombre} onChange={(e) => setNombre(e.target.value)} fullWidth sx={{ mb: 2 }} />
-      <TextField label="Email" type="email" value={emailCliente} onChange={(e) => setEmailCliente(e.target.value)} fullWidth sx={{ mb: 2 }} />
-      <TextField label="Teléfono" value={telefono} onChange={(e) => setTelefono(e.target.value)} fullWidth sx={{ mb: 2 }} />
-      <TextField label="Comentarios (opcional)" value={comentarios} onChange={(e) => setComentarios(e.target.value)} fullWidth multiline rows={2} sx={{ mb: 2 }} />
+      <TextField
+        label="Nombre"
+        value={nombre}
+        onChange={(e) => setNombre(e.target.value)}
+        fullWidth
+        sx={{ mb: 2 }}
+      />
+      <TextField
+        label="Email"
+        type="email"
+        value={emailCliente}
+        onChange={(e) => setEmailCliente(e.target.value)}
+        fullWidth
+        sx={{ mb: 2 }}
+      />
+      <TextField
+        label="Teléfono"
+        value={telefono}
+        onChange={(e) => setTelefono(e.target.value)}
+        fullWidth
+        sx={{ mb: 2 }}
+      />
+      <TextField
+        label="Comentarios (opcional)"
+        value={comentarios}
+        onChange={(e) => setComentarios(e.target.value)}
+        fullWidth
+        multiline
+        rows={2}
+        sx={{ mb: 2 }}
+      />
 
-      <TextField select label="Ciudad" value={ciudad} onChange={(e) => setCiudad(e.target.value)} fullWidth sx={{ mb: 2 }}>
+      <TextField
+        select
+        label="Ciudad"
+        value={ciudad}
+        onChange={(e) => setCiudad(e.target.value)}
+        fullWidth
+        sx={{ mb: 2 }}
+      >
         {ciudades.map((c) => (
-          <MenuItem key={c} value={c}>{c}</MenuItem>
+          <MenuItem key={c} value={c}>
+            {c}
+          </MenuItem>
         ))}
       </TextField>
 
       {ciudad.trim() === "Las Heras" && (
-        <TextField label="Distancia (km)" type="number" value={distanciaKm} onChange={(e) => setDistanciaKm(e.target.value)} fullWidth sx={{ mb: 2 }} />
+        <TextField
+          label="Distancia (km)"
+          type="number"
+          value={distanciaKm}
+          onChange={(e) => setDistanciaKm(e.target.value)}
+          fullWidth
+          sx={{ mb: 2 }}
+        />
       )}
 
       <Button variant="contained" onClick={handleCalcular} fullWidth sx={{ mb: 1 }}>
@@ -198,10 +242,10 @@ const ShippingCalculator = () => {
       {modoVendedor && (
         <>
           <Divider sx={{ my: 2 }} />
-          <Typography variant="h6" sx={{ mb: 2 }}>Historial de pedidos guardados</Typography>
-          {historial.length === 0 && (
-            <Typography variant="body2">No hay pedidos guardados.</Typography>
-          )}
+          <Typography variant="h6" sx={{ mb: 2 }}>
+            Historial de pedidos guardados
+          </Typography>
+          {historial.length === 0 && <Typography variant="body2">No hay pedidos guardados.</Typography>}
           <List>
             {historial.map((pedido) => (
               <React.Fragment key={pedido.id}>
@@ -209,7 +253,7 @@ const ShippingCalculator = () => {
                   <ListItemAvatar>
                     <Avatar
                       variant="square"
-                      src={`https://perfume-lowcost.netlify.app${pedido.perfumeImagen}`}
+                      src={pedido.perfumeImagen || "/fallback-image.png"}
                       alt={pedido.perfumeNombre}
                       sx={{ width: 56, height: 56, mr: 2 }}
                     />
@@ -220,10 +264,12 @@ const ShippingCalculator = () => {
                       <>
                         <Typography component="span" variant="body2" color="text.primary">
                           Cliente: {pedido.nombreCliente} | {pedido.telefono}
-                        </Typography><br />
+                        </Typography>
+                        <br />
                         <Typography component="span" variant="body2" color="text.secondary">
                           Ciudad: {pedido.ciudad} | Envío: ${pedido.costoEnvio} | {pedido.fecha}
-                        </Typography><br />
+                        </Typography>
+                        <br />
                         <Typography component="span" variant="body2" color="text.secondary">
                           Comentarios: {pedido.comentarios || "(ninguno)"}
                         </Typography>
