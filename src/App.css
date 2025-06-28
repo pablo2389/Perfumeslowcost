@@ -18,6 +18,55 @@ body {
   font-family: 'Roboto', Arial, sans-serif;
   background: #f5f5f5;
 }
+/* =========================
+   MEDIA QUERIES PARA ESCRITORIO
+   ========================= */
+
+/* Tablets (>= 768px) */
+@media (min-width: 768px) {
+  .MuiTypography-h4 {
+    font-size: 2.5rem !important;
+  }
+  .MuiTypography-h6 {
+    font-size: 1.3rem !important;
+  }
+  #root {
+    padding: 2rem 3rem;
+  }
+}
+
+/* Escritorio mediano (>= 1024px) */
+@media (min-width: 1024px) {
+  .MuiTypography-h4 {
+    font-size: 3rem !important;
+  }
+  .MuiTypography-h6 {
+    font-size: 1.5rem !important;
+  }
+}
+
+/* Escritorio grande (>= 1280px) */
+@media (min-width: 1280px) {
+  #root {
+    max-width: 1280px;
+    padding: 2rem 4rem;
+  }
+}
+
+/* Ultra widescreen (>= 1536px) */
+@media (min-width: 1536px) {
+  .MuiTypography-h4 {
+    font-size: 3.2rem !important;
+  }
+  .MuiTypography-h6 {
+    font-size: 1.6rem !important;
+  }
+  #root {
+    max-width: 1440px;
+    padding: 2rem 5rem;
+  }
+}
+
 
 img {
   max-width: 100%;

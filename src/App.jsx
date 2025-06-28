@@ -69,7 +69,7 @@ const App = () => {
                   fontWeight: "bold",
                   mb: { xs: 3, md: 4 },
                   fontSize: { xs: "2rem", sm: "2.8rem", md: "3rem" },
-                  wordBreak: "break-word", // evitar que títulos muy largos generen overflow
+                  wordBreak: "break-word", // evitar overflow de títulos largos
                 }}
               >
                 PERFUMESLOWCOST
@@ -86,10 +86,13 @@ const App = () => {
             <Box
               sx={{
                 flex: 1,
-                minWidth: { xs: "auto", md: 280 }, // ajusta minWidth en móviles
+                minWidth: { xs: "auto", md: 280 },
                 mt: { xs: 3, md: 0 },
                 px: { xs: 0, md: 2 },
                 maxWidth: "100%",
+                position: { md: "sticky" }, // sticky en pantallas md+
+                top: { md: 80 }, // ajusta según altura de tu Navbar
+                alignSelf: "flex-start", // evita estiramiento vertical completo
               }}
             >
               <WhatsAppCheckout cart={cart} setCart={setCart} />
