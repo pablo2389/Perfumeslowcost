@@ -8,8 +8,8 @@ import WhatsAppCheckout from "./components/WhatsAppCheckout";
 import AboutUs from "./components/AboutUs";
 import Testimonials from "./components/Testimonials";
 import ShippingCalculator from "./components/ShippingCalculator";
-import SellerMode from "./components/SellerMode"; // Importa modo vendedor
-import SellerDashboard from "./components/SellerDashboard"; // Importa dashboard vendedor
+import SellerMode from "./components/SellerMode";
+import SellerDashboard from "./components/SellerDashboard";
 
 const App = () => {
   const [category, setCategory] = useState("todos");
@@ -46,6 +46,7 @@ const App = () => {
           px: { xs: 1, sm: 2, md: 3 },
           py: 4,
           width: "100%",
+          overflowX: "hidden", // previene scroll horizontal general
         }}
       >
         {showAbout && <AboutUs />}
@@ -58,8 +59,7 @@ const App = () => {
               gap: { xs: 2, md: 3 },
             }}
           >
-            {/* Contenido normal para todos */}
-            <Box sx={{ flex: 3 }}>
+            <Box sx={{ flex: 3, maxWidth: "100%" }}>
               <Typography
                 variant="h3"
                 component="h1"
@@ -69,6 +69,7 @@ const App = () => {
                   fontWeight: "bold",
                   mb: { xs: 3, md: 4 },
                   fontSize: { xs: "2rem", sm: "2.8rem", md: "3rem" },
+                  wordBreak: "break-word", // evitar que títulos muy largos generen overflow
                 }}
               >
                 PERFUMESLOWCOST
@@ -85,9 +86,10 @@ const App = () => {
             <Box
               sx={{
                 flex: 1,
-                minWidth: 280,
+                minWidth: { xs: "auto", md: 280 }, // ajusta minWidth en móviles
                 mt: { xs: 3, md: 0 },
                 px: { xs: 0, md: 2 },
+                maxWidth: "100%",
               }}
             >
               <WhatsAppCheckout cart={cart} setCart={setCart} />
@@ -96,9 +98,7 @@ const App = () => {
           </Box>
         )}
 
-        {/* Modo vendedor: contenido exclusivo */}
         <SellerMode>
-          {/* Oculta dashboard solo si estamos en About o Testimonials */}
           {!(showAbout || showTestimonials) && <SellerDashboard />}
         </SellerMode>
       </Box>
