@@ -1,0 +1,17 @@
+{
+  "id": "/",
+  "name": "Perfumes Low Cost",
+  "short_name": "LowCost",
+  "description": "App para comprar perfumes low cost en Mendoza",
+  "start_url": "/",
+  "display": "standalone",
+  "theme_color": "#ffffff",
+  "background_color": "#ffffff",
+  "icons": [
+    {
+      "src": "/favicon-32x32.png",
+      "sizes": "32x32",
+      "type": "image/png"
+    }
+  ]
+}
