@@ -12,7 +12,7 @@ const WhatsAppCheckout = ({ cart, setCart }) => {
     cart.forEach(({ id, nombre, cantidad, precio, imagen }) => {
       mensaje += `- ${nombre || `Perfume ID: ${id}`} \n  Cantidad: ${cantidad}\n  Precio unitario: $${precio}\n\n`;
       if (imagen) {
-        mensaje += `Foto: ${window.location.origin}${imagen}\n\n`;
+        mensaje += `Foto: ${imagen}\n\n`;  // Aquí corregido para no concatenar origen local
       }
     });
 
@@ -45,7 +45,15 @@ const WhatsAppCheckout = ({ cart, setCart }) => {
       </Typography>
 
       {cart.map(({ id, nombre, cantidad }) => (
-        <Box key={id} sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", mb: 1 }}>
+        <Box
+          key={id}
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            mb: 1,
+          }}
+        >
           <Typography>{`${nombre || `ID: ${id}`} x ${cantidad}`}</Typography>
           <IconButton color="error" onClick={() => handleRemove(id)}>
             <DeleteIcon />
@@ -57,7 +65,13 @@ const WhatsAppCheckout = ({ cart, setCart }) => {
         Total: ${cart.reduce((acc, item) => acc + item.precio * item.cantidad, 0)}
       </Typography>
 
-      <Button variant="contained" color="success" sx={{ mt: 2 }} fullWidth onClick={handleSendWhatsApp}>
+      <Button
+        variant="contained"
+        color="success"
+        sx={{ mt: 2 }}
+        fullWidth
+        onClick={handleSendWhatsApp}
+      >
         Enviar pedido por WhatsApp
       </Button>
     </Paper>
