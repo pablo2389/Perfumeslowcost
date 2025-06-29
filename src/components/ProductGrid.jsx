@@ -11,7 +11,7 @@ import { useState } from "react";
 
 import perfumes from "../data/perfumes";
 
-const ProductGrid = ({ category, cart, setCart }) => {
+const ProductGrid = ({ category, cart, setCart, setCartOpen }) => {
   const [quantities, setQuantities] = useState({});
 
   const handleAddToCart = (perfume) => {
@@ -27,6 +27,7 @@ const ProductGrid = ({ category, cart, setCart }) => {
     } else {
       setCart([...cart, { ...perfume, cantidad: qty }]);
     }
+    if (setCartOpen) setCartOpen(true); // Abre el Drawer del carrito
   };
 
   const filteredPerfumes =
@@ -50,6 +51,7 @@ const ProductGrid = ({ category, cart, setCart }) => {
           textAlign: "center",
           fontWeight: "bold",
           textTransform: "capitalize",
+          fontSize: { xs: "1.2rem", sm: "1.6rem" },
         }}
       >
         {category}
