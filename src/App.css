@@ -1,16 +1,10 @@
+/* Body y root container */
 #root {
   max-width: 1280px;
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
-  overflow-x: hidden; /* Evita scroll horizontal */
-}
-
-/* Ajustar padding en pantallas chicas */
-@media (max-width: 600px) {
-  #root {
-    padding: 1rem;
-  }
+  overflow-x: hidden;
 }
 
 body {
@@ -18,115 +12,56 @@ body {
   font-family: 'Roboto', Arial, sans-serif;
   background: #f5f5f5;
 }
-/* =========================
-   MEDIA QUERIES PARA ESCRITORIO
-   ========================= */
 
-/* Tablets (>= 768px) */
-@media (min-width: 768px) {
-  .MuiTypography-h4 {
-    font-size: 2.5rem !important;
-  }
-  .MuiTypography-h6 {
-    font-size: 1.3rem !important;
-  }
-  #root {
-    padding: 2rem 3rem;
+/* Responsive Typography h3 */
+.MuiTypography-h3 {
+  white-space: normal !important;
+  word-break: break-word !important;
+  overflow-wrap: break-word !important;
+  max-width: 100% !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+
+@media (min-width: 600px) {
+  .MuiTypography-h3 {
+    font-size: 2rem !important;
   }
 }
 
-/* Escritorio mediano (>= 1024px) */
-@media (min-width: 1024px) {
-  .MuiTypography-h4 {
+@media (min-width: 960px) {
+  .MuiTypography-h3 {
     font-size: 3rem !important;
   }
-  .MuiTypography-h6 {
-    font-size: 1.5rem !important;
-  }
 }
 
-/* Escritorio grande (>= 1280px) */
-@media (min-width: 1280px) {
-  #root {
-    max-width: 1280px;
-    padding: 2rem 4rem;
-  }
-}
-
-/* Ultra widescreen (>= 1536px) */
-@media (min-width: 1536px) {
-  .MuiTypography-h4 {
-    font-size: 3.2rem !important;
-  }
-  .MuiTypography-h6 {
-    font-size: 1.6rem !important;
-  }
-  #root {
-    max-width: 1440px;
-    padding: 2rem 5rem;
-  }
-}
-
-
+/* Imágenes responsivas para carrusel/productos */
 img {
   max-width: 100%;
   height: auto;
   display: block;
 }
 
-/* Ajustes tipográficos para móviles */
-@media (max-width: 600px) {
-  .MuiTypography-h4 {
-    font-size: 2rem !important;
-  }
-  .MuiTypography-h6 {
-    font-size: 1.1rem !important;
-  }
+/* Contenedor principal evita scroll horizontal */
+#root,
+.App,
+.someMainContainer {
+  overflow-x: hidden;
 }
 
-/* Opcional: para que el contenido dentro de cards o cajas no quede demasiado ancho en móviles */
-.card {
-  padding: 2em;
-  max-width: 100%;
-}
-
-@media (max-width: 600px) {
-  .card {
-    padding: 1em;
+@media (max-width: 400px) {
+  .MuiTypography-h3 {
+    font-size: 1.4rem !important;
+    padding: 0 1rem;
   }
 }
 
-/* Logo */
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
-}
-
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
-}
-
-.read-the-docs {
-  color: #888;
+.MuiTypography-h3 {
+  text-align: center !important;
+  max-width: 100% !important;
+  white-space: normal !important;
+  word-break: break-word !important;
+  overflow-wrap: break-word !important;
+  margin: 0 auto !important;
 }

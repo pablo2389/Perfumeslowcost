@@ -12,7 +12,7 @@ const WhatsAppCheckout = ({ cart, setCart }) => {
     cart.forEach(({ id, nombre, cantidad, precio, imagen }) => {
       mensaje += `- ${nombre || `Perfume ID: ${id}`} \n  Cantidad: ${cantidad}\n  Precio unitario: $${precio}\n\n`;
       if (imagen) {
-        mensaje += `Foto: ${imagen}\n\n`;  // Aquí corregido para no concatenar origen local
+        mensaje += `Foto: ${imagen}\n\n`;
       }
     });
 
@@ -31,15 +31,24 @@ const WhatsAppCheckout = ({ cart, setCart }) => {
     setCart(cart.filter((item) => item.id !== id));
   };
 
-  if (cart.length === 0)
+  if (cart.length === 0) {
     return (
       <Paper elevation={3} sx={{ p: 2, mt: 4, textAlign: "center" }}>
         <Typography variant="body1">El carrito está vacío</Typography>
       </Paper>
     );
+  }
 
   return (
-    <Paper elevation={3} sx={{ p: 2, mt: 4 }}>
+    <Paper
+      elevation={3}
+      sx={{
+        p: { xs: 2, sm: 3 },
+        mt: 4,
+        maxWidth: "100%",
+        boxSizing: "border-box",
+      }}
+    >
       <Typography variant="h6" gutterBottom>
         Resumen del Pedido
       </Typography>
@@ -68,8 +77,7 @@ const WhatsAppCheckout = ({ cart, setCart }) => {
       <Button
         variant="contained"
         color="success"
-        sx={{ mt: 2 }}
-        fullWidth
+        sx={{ mt: 2, width: "100%" }}
         onClick={handleSendWhatsApp}
       >
         Enviar pedido por WhatsApp

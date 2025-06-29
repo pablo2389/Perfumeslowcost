@@ -1,15 +1,13 @@
-import React, { useState } from "react";
-import { CssBaseline, Box, Typography } from "@mui/material";
+import { Box, CssBaseline, Typography } from "@mui/material";
+import { useState } from "react";
 import { Helmet } from "react-helmet";
 
 import Navbar from "./components/Navbar";
 import ProductGrid from "./components/ProductGrid";
+import ShippingCalculator from "./components/ShippingCalculator";
 import WhatsAppCheckout from "./components/WhatsAppCheckout";
 import AboutUs from "./components/AboutUs";
 import Testimonials from "./components/Testimonials";
-import ShippingCalculator from "./components/ShippingCalculator";
-import SellerMode from "./components/SellerMode";
-import SellerDashboard from "./components/SellerDashboard";
 
 const App = () => {
   const [category, setCategory] = useState("todos");
@@ -20,13 +18,7 @@ const App = () => {
   return (
     <>
       <Helmet>
-        <title>Perfumes Low Cost en Mendoza - Envíos a Guaymallén y más</title>
-        <meta
-          name="description"
-          content="Compra perfumes originales en Mendoza con envíos rápidos a Guaymallén, Las Heras, Godoy Cruz, Luján y Maipú. Calidad y precio justo."
-        />
-        <meta name="robots" content="index, follow" />
-        <link rel="canonical" href="https://perfumeslowcost.netlify.app" />
+        <title>Perfumes Low Cost en Mendoza</title>
       </Helmet>
 
       <CssBaseline />
@@ -42,57 +34,60 @@ const App = () => {
       <Box
         sx={{
           maxWidth: 1200,
-          margin: "0 auto",
+          mx: "auto",
           px: { xs: 1, sm: 2, md: 3 },
           py: 4,
           width: "100%",
-          overflowX: "hidden", // previene scroll horizontal general
         }}
       >
+        <Box sx={{ textAlign: "center", mb: 4 }}>
+          <Typography
+            variant="h3"
+            sx={{
+              fontWeight: "bold",
+              fontSize: { xs: "1.6rem", sm: "2.4rem", md: "3rem" },
+              textAlign: "center",
+              lineHeight: 1.2,
+              maxWidth: 600,
+              margin: "0 auto",
+              whiteSpace: "normal",
+              wordBreak: "break-word",
+            }}
+          >
+            PERFUMES<br />DE BAJO COSTO
+          </Typography>
+        </Box>
+
         {showAbout && <AboutUs />}
         {showTestimonials && <Testimonials />}
+
         {!showAbout && !showTestimonials && (
           <Box
             sx={{
-              display: "flex",
-              flexDirection: { xs: "column", md: "row" },
-              gap: { xs: 2, md: 3 },
+              display: { xs: "block", md: "flex" },
+              flexDirection: "row",
+              alignItems: "flex-start",
+              gap: 3,
             }}
           >
-            <Box sx={{ flex: 3, maxWidth: "100%" }}>
-              <Typography
-                variant="h3"
-                component="h1"
-                align="center"
-                gutterBottom
-                sx={{
-                  fontWeight: "bold",
-                  mb: { xs: 3, md: 4 },
-                  fontSize: { xs: "2rem", sm: "2.8rem", md: "3rem" },
-                  wordBreak: "break-word", // evitar overflow de títulos largos
-                }}
-              >
-                PERFUMESLOWCOST
-              </Typography>
-
-              <ProductGrid
-                category={category}
-                cart={cart}
-                setCart={setCart}
-                fullView={category === "todos"}
-              />
+            <Box
+              sx={{
+                flexGrow: 1,
+                minWidth: 0,
+                minHeight: { md: 800 },
+              }}
+            >
+              <ProductGrid category={category} cart={cart} setCart={setCart} />
             </Box>
 
             <Box
               sx={{
-                flex: 1,
-                minWidth: { xs: "auto", md: 280 },
-                mt: { xs: 3, md: 0 },
-                px: { xs: 0, md: 2 },
-                maxWidth: "100%",
-                position: { md: "sticky" }, // sticky en pantallas md+
-                top: { md: 80 }, // ajusta según altura de tu Navbar
-                alignSelf: "flex-start", // evita estiramiento vertical completo
+                flexShrink: 0,
+                width: { xs: "100%", md: 300 },
+                position: { md: "sticky" },
+                top: { md: 140 },
+                mt: { xs: 4, md: 0 },
+                zIndex: 1,
               }}
             >
               <WhatsAppCheckout cart={cart} setCart={setCart} />
@@ -100,10 +95,6 @@ const App = () => {
             </Box>
           </Box>
         )}
-
-        <SellerMode>
-          {!(showAbout || showTestimonials) && <SellerDashboard />}
-        </SellerMode>
       </Box>
     </>
   );
