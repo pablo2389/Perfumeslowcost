@@ -3,7 +3,10 @@ import { Box, Typography, Button, IconButton, Paper } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 
 const WhatsAppCheckout = ({ cart, setCart }) => {
-  const phoneNumber = "5492616616758";
+  const phoneNumbers = [
+    { name: "Vendedor 1", number: "5492616616758" },
+    { name: "Graciela", number: "5492616531304" },
+  ];
 
   const buildMessage = () => {
     if (cart.length === 0) return "No hay productos en el carrito.";
@@ -22,8 +25,8 @@ const WhatsAppCheckout = ({ cart, setCart }) => {
     return encodeURIComponent(mensaje);
   };
 
-  const handleSendWhatsApp = () => {
-    const url = `https://wa.me/${phoneNumber}?text=${buildMessage()}`;
+  const handleSendWhatsApp = (number) => {
+    const url = `https://wa.me/${number}?text=${buildMessage()}`;
     window.open(url, "_blank");
   };
 
@@ -74,14 +77,17 @@ const WhatsAppCheckout = ({ cart, setCart }) => {
         Total: ${cart.reduce((acc, item) => acc + item.precio * item.cantidad, 0)}
       </Typography>
 
-      <Button
-        variant="contained"
-        color="success"
-        sx={{ mt: 2, width: "100%" }}
-        onClick={handleSendWhatsApp}
-      >
-        Enviar pedido por WhatsApp
-      </Button>
+      {phoneNumbers.map((vendedor) => (
+        <Button
+          key={vendedor.number}
+          variant="contained"
+          color="success"
+          sx={{ mt: 2, width: "100%" }}
+          onClick={() => handleSendWhatsApp(vendedor.number)}
+        >
+          Enviar pedido a {vendedor.name}
+        </Button>
+      ))}
     </Paper>
   );
 };
